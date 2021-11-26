@@ -1,54 +1,45 @@
 package com.example.demo;
 
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 @RestController
 public class Controller {
 
-    private static final HashMap<String, Integer> domains = new HashMap<String, Integer>();
-    private static final List<String> url_list = new ArrayList<>();
+//    private static final HashMap<String, Integer> domains = new HashMap<String, Integer>();
+//    private static final List<String> url_list = new ArrayList<>();
 
-    @RequestMapping(value = "/add/{name:[a-zA-Z0-9.]*}")
-    public List<String> add(@PathVariable String name) {
-        try {
-            String[] url = name.split("/");
-            url = url[0].split("\\.");
 
-            String host = url[url.length - 2];
+    private final DomainService domainService;
 
-            if (domains.containsKey(host))
-                domains.compute(host, (k, v) -> v = v + 1);
-            else
-                domains.put(host, 0);
-
-            url_list.add(name);
-
-            return url_list;
-        }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println(e);
-            return Arrays.asList("Wrong URL!");
-        }
+    public Controller(DomainService domainService) {
+        this.domainService = domainService;
     }
 
-    @RequestMapping(value = "/top/{n}")
-    public List<String> top(@PathVariable int n){
-        return domains.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(Map.Entry::getKey).limit(n).collect(Collectors.toList());
+    @RequestMapping(value = "/add/**")
+    public List<String> add(HttpServletRequest request) {
+
+        String url = request.getRequestURI().split("/add/", 2)[1];
+        return domainService.add(url);
+    }
+
+    @RequestMapping(value = "/top/{num}")
+    public List<String> top(@PathVariable String num){
+        try {
+            int n = Integer.parseInt(num);
+            return domainService.top(n);
+        }catch (Exception e){
+            return Arrays.asList("Wrong! is not a number!");
+        }
     }
 
     @RequestMapping(value = "/domain")
     public HashMap<String, Integer> getDomains(){
-        return domains;
+        return domainService.domain();
     }
 }
