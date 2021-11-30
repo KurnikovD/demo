@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.DomainService;
+import com.example.demo.service.DomainServiceImpl;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ public class Controller {
 //    private static final List<String> url_list = new ArrayList<>();
 
 
-    private final DomainService domainService;
+    private final DomainServiceImpl domainService;
 
     public Controller(DomainService domainService) {
         this.domainService = domainService;

@@ -6,17 +6,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class DomainService {
+public class
+DomainService implements DomainServiceImpl {
 
-    private static final HashMap<String, Integer> domains = new HashMap<String, Integer>();
-    private static final List<String> urlList = new ArrayList<>();
+    private static final HashMap<String, Integer> domains = new HashMap<>();
 
     public void add(String url) {
         try {
             String[] host = url.split("\\.");
 
             if (domains.containsKey(host[host.length - 2])) {
-                domains.compute(host[host.length - 2], (k, v) -> v = v + 1);
+                domains.compute(host[host.length - 2], (k, v) -> v++);
             } else {
                 domains.put(host[host.length - 2], 1);
             }
