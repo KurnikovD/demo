@@ -11,7 +11,7 @@ public class DomainService {
     private static final HashMap<String, Integer> domains = new HashMap<String, Integer>();
     private static final List<String> urlList = new ArrayList<>();
 
-    public List<String> add(String url) {
+    public void add(String url) {
         try {
             String[] host = url.split("\\.");
 
@@ -20,11 +20,8 @@ public class DomainService {
             } else {
                 domains.put(host[host.length - 2], 1);
             }
-
-            urlList.add(url);
-            return urlList;
         } catch (ArrayIndexOutOfBoundsException e) {
-            return Arrays.asList("Wrong URL!");
+            throw new IllegalArgumentException("Wrong URL!", e);
         }
     }
 

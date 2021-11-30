@@ -23,10 +23,10 @@ public class Controller {
     }
 
     @RequestMapping(value = "/add/**")
-    public List<String> add(HttpServletRequest request) {
+    public void add(HttpServletRequest request) {
 
         String url = request.getRequestURI().split("/add/", 2)[1];
-        return domainService.add(url);
+        domainService.add(url);
     }
 
     @RequestMapping(value = "/top/{num}")
