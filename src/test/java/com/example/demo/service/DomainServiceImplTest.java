@@ -30,9 +30,7 @@ class DomainServiceImplTest {
     @Test
     void testReturnNResultsFromTop() {
         DomainService domainService = new DomainServiceImpl();
-        domainService.add("google.com");
-        domainService.add("lenta.ru");
-        domainService.add("vk.com");
+        List.of("google.com", "lenta.ru", "vk.com").forEach(domainService::add);
         int n = 2;
         assert (domainService.top(n).size() == n);
     }
@@ -40,9 +38,7 @@ class DomainServiceImplTest {
     @Test
     void testContentInList() {
         DomainService domainService = new DomainServiceImpl();
-        domainService.add("google.com");
-        domainService.add("lenta.ru");
-        domainService.add("vk.com");
+        List.of("google.com", "lenta.ru", "vk.com").forEach(domainService::add);
 
         List<String> list = List.of("lenta", "vk", "google");
         assert (list.containsAll(domainService.top(2)));
