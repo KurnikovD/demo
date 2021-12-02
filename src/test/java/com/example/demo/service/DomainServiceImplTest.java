@@ -38,7 +38,7 @@ class DomainServiceImplTest {
     }
 
     @Test
-    void testContentInList(){
+    void testContentInList() {
         DomainService domainService = new DomainServiceImpl();
         domainService.add("google.com");
         domainService.add("lenta.ru");

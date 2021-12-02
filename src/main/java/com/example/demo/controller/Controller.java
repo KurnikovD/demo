@@ -1,23 +1,20 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.DomainService;
-import com.example.demo.service.DomainServiceImpl;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 
 @RestController
 public class Controller {
 
-//    private static final HashMap<String, Integer> domains = new HashMap<String, Integer>();
-//    private static final List<String> url_list = new ArrayList<>();
-
-
-    private final DomainServiceImpl domainService;
+    private final DomainService domainService;
 
     public Controller(DomainService domainService) {
         this.domainService = domainService;
@@ -31,17 +28,26 @@ public class Controller {
     }
 
     @RequestMapping(value = "/top/{num}")
-    public List<String> top(@PathVariable String num){
+    public List<String> top(@PathVariable String num) {
+        int n;
         try {
-            int n = Integer.parseInt(num);
-            return domainService.top(n);
-        }catch (Exception e){
-            return Arrays.asList("Wrong! is not a number!");
+            n = Integer.parseInt(num);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Error! Is not a number", e);
         }
+        if (n <= 0) {
+            throw new IllegalArgumentException("Error! The number must be greater than 0, but was " + n);
+        }
+        return domainService.top(n);
     }
 
     @RequestMapping(value = "/domain")
-    public HashMap<String, Integer> getDomains(){
+    public HashMap<String, Integer> getDomains() {
         return domainService.domain();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String argumentError(Exception e) {
+        return (e.getMessage());
     }
 }

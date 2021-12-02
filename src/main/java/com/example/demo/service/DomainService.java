@@ -1,40 +1,13 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.List;
 
-import java.util.*;
-import java.util.stream.Collectors;
+public interface DomainService {
 
-@Service
-public class
-DomainService implements DomainServiceImpl {
+    void add(String url);
 
-    private static final HashMap<String, Integer> domains = new HashMap<>();
+    List<String> top(Integer n);
 
-    public void add(String url) {
-        try {
-            String[] host = url.split("\\.");
-
-            if (domains.containsKey(host[host.length - 2])) {
-                domains.compute(host[host.length - 2], (k, v) -> v++);
-            } else {
-                domains.put(host[host.length - 2], 1);
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Wrong URL!", e);
-        }
-    }
-
-    public List<String> top(int n) {
-        return domains.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(Map.Entry::getKey)
-                .limit(n)
-                .collect(Collectors.toList());
-    }
-
-    public HashMap<String, Integer> domain() {
-        return domains;
-    }
-
+    HashMap<String, Integer> domain();
 }
