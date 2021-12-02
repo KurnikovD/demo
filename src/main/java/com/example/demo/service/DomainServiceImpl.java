@@ -29,6 +29,7 @@ public class DomainServiceImpl implements DomainService {
     public List<String> top(Integer n) {
         return domains.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .parallel()
                 .map(Map.Entry::getKey)
                 .limit(n)
                 .collect(Collectors.toList());

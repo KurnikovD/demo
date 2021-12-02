@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -44,5 +46,13 @@ class DomainServiceImplTest {
         assert (list.containsAll(domainService.top(2)));
     }
 
+    @Test
+    void testSortingTop(){
+        DomainService domainService = new DomainServiceImpl();
+        List.of("google.com", "lenta.ru", "lenta.ru",  "vk.com", "vk.com", "vk.com")
+                .forEach(domainService::add);
+        List<String> list = List.of("vk", "lenta", "google");
+        Assertions.assertEquals(list, domainService.top(3));
+    }
 
 }
