@@ -12,12 +12,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
 public class DomainServiceImpl implements DomainService {
 
     private static final HashMap<String, Integer> domains = new HashMap<>();
 
-    @CacheEvict(value = "top", allEntries = true)
+    @Override
     public void add(String url) {
         String[] host = url.split("\\.");
         try {
@@ -31,7 +30,7 @@ public class DomainServiceImpl implements DomainService {
         }
     }
 
-    @Cacheable(value = "top")
+    @Override
     public List<String> top(Integer n) {
         return domains.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -40,6 +39,7 @@ public class DomainServiceImpl implements DomainService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public HashMap<String, Integer> domain() {
         return domains;
     }

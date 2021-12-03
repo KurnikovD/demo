@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.DomainService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public class Controller {
 
     private final DomainService domainService;
 
-    public Controller(DomainService domainService) {
+    public Controller(@Qualifier("cachingDomainServiceImpl") DomainService domainService) {
         this.domainService = domainService;
     }
 
