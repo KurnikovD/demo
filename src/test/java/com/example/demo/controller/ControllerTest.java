@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.DomainService;
+import com.example.demo.service.DomainServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,7 +28,7 @@ class ControllerTest {
     @Autowired
     Controller controller;
     @MockBean
-    DomainService service;
+    DomainServiceImpl service;
     @Autowired
     private MockMvc mockMvc;
 
@@ -72,7 +72,6 @@ class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Error! The number must be greater than 0")));
     }
-
 
 
 }
