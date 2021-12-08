@@ -1,14 +1,12 @@
 package com.example.demo.service;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,30 +16,40 @@ public class DomainServiceImpl implements DomainService {
 
     @Override
     public void add(String url) {
+        String hostName = getHostNameFromURL(url);
+
+        if (domains.containsKey(hostName)) {
+            domains.compute(hostName, (k, v) -> v = v + 1);
+        } else {
+            domains.put(hostName, 1);
+        }
+
+    }
+
+    private String getHostNameFromURL(String url) {
         String[] host = url.split("\\.");
+        String hostName;
         try {
-            if (domains.containsKey(host[host.length - 2])) {
-                domains.compute(host[host.length - 2], (k, v) -> v = v + 1);
-            } else {
-                domains.put(host[host.length - 2], 1);
-            }
+            hostName = host[host.length - 2];
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("Wrong URL!", e);
         }
+        return hostName;
     }
 
     @Override
     public List<String> top(Integer n) {
-        return domains.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(Map.Entry::getKey)
-                .limit(n)
-                .collect(Collectors.toList());
+        synchronized (domains) {
+            return domains.entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .map(Map.Entry::getKey)
+                    .limit(n)
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
     public HashMap<String, Integer> domain() {
         return domains;
     }
-
 }

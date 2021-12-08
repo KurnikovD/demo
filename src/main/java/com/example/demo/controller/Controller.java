@@ -17,7 +17,7 @@ public class Controller {
 
     private final DomainService domainService;
 
-    public Controller(@Qualifier("cachingDomainServiceImpl") DomainService domainService) {
+    public Controller(@Qualifier("queueDecorator") DomainService domainService) {
         this.domainService = domainService;
     }
 
