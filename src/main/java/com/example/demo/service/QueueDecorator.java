@@ -10,8 +10,8 @@ import java.util.Queue;
 @Service
 public class QueueDecorator implements DomainService {
 
-    Queue<String> addQueue = new LinkedList<>();
     private final DomainService target;
+    Queue<String> addQueue = new LinkedList<>();
 
     QueueDecorator(CachingDomainServiceImpl source) {
         target = source;

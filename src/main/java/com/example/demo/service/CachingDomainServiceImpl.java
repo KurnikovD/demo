@@ -13,7 +13,7 @@ import java.util.List;
 @EnableCaching
 public class CachingDomainServiceImpl implements DomainService {
 
-    private DomainService target;
+    private final DomainService target;
 
     public CachingDomainServiceImpl(@Qualifier("domainServiceImpl") DomainService source) {
         this.target = source;
