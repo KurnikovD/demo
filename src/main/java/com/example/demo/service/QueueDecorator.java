@@ -3,15 +3,15 @@ package com.example.demo.service;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Service
 public class QueueDecorator implements DomainService {
 
     private final DomainService target;
-    Queue<String> addQueue = new LinkedList<>();
+    Queue<String> addQueue = new LinkedBlockingQueue<>();
 
     QueueDecorator(CachingDomainServiceImpl source) {
         target = source;

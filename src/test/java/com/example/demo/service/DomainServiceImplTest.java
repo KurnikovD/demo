@@ -1,11 +1,12 @@
 package com.example.demo.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class DomainServiceImplTest {
@@ -14,7 +15,9 @@ class DomainServiceImplTest {
     void testAddOk() {
         DomainService domainService = new DomainServiceImpl();
         domainService.add("google.com");
-        assert (domainService.domain().containsKey("google"));
+        HashMap<String, Integer> expectedResponse = new HashMap<>();
+        expectedResponse.put("google", 1);
+        assertEquals(expectedResponse, domainService.domain());
     }
 
     @Test
@@ -25,7 +28,7 @@ class DomainServiceImplTest {
         });
         String exceptionMessage = "Wrong URL!";
         String actualMessage = exception.getMessage();
-        assert (actualMessage.contains(exceptionMessage));
+        assertEquals(exceptionMessage, actualMessage);
     }
 
     @Test
@@ -33,16 +36,7 @@ class DomainServiceImplTest {
         DomainService domainService = new DomainServiceImpl();
         List.of("google.com", "lenta.ru", "vk.com").forEach(domainService::add);
         int n = 2;
-        assert (domainService.top(n).size() == n);
-    }
-
-    @Test
-    void testContentInList() {
-        DomainService domainService = new DomainServiceImpl();
-        List.of("google.com", "lenta.ru", "vk.com").forEach(domainService::add);
-
-        List<String> list = List.of("lenta", "vk", "google");
-        assert (list.containsAll(domainService.top(2)));
+        assertEquals(n, domainService.top(n).size());
     }
 
     @Test
@@ -51,7 +45,7 @@ class DomainServiceImplTest {
         List.of("google.com", "lenta.ru", "lenta.ru", "vk.com", "vk.com", "vk.com")
                 .forEach(domainService::add);
         List<String> list = List.of("vk", "lenta", "google");
-        Assertions.assertEquals(list, domainService.top(3));
+        assertEquals(list, domainService.top(3));
     }
 
 }

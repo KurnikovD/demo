@@ -4,49 +4,45 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class QueueDecoratorTest {
 
     @Test
-    void queueTest() {
+    void queueTest() throws InterruptedException {
         DomainService domainService = new QueueDecorator(new CachingDomainServiceImpl(new DomainServiceImpl()));
         String url = "google.com";
-        int numberOfIteration = 100;
+        Integer numberOfIteration = 100;
 
-        CountDownLatch latch = new CountDownLatch(numberOfIteration);
+        CountDownLatch startLatch = new CountDownLatch(numberOfIteration);
+        CountDownLatch terminationLatch = new CountDownLatch(numberOfIteration);
         List<Runnable> runnableTasks = new ArrayList<>();
         for (int i = 0; i < numberOfIteration; i++) {
             runnableTasks.add(() -> {
-                latch.countDown();
+                startLatch.countDown();
 
                 try {
-                    latch.await();
+                    startLatch.await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
                 domainService.add(url);
+                terminationLatch.countDown();
             });
         }
 
         ExecutorService service = Executors.newFixedThreadPool(numberOfIteration);
         runnableTasks.forEach(service::execute);
 
-        try {
-            service.awaitTermination(100L, MILLISECONDS);
-            service.shutdown();
+        terminationLatch.await();
+        service.shutdown();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        assert (Objects.equals(domainService.domain().get("google"), numberOfIteration));
+        assertEquals(domainService.domain().get("google"), numberOfIteration);
 
     }
 
