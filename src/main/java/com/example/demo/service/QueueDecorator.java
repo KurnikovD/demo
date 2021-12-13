@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class QueueDecorator implements DomainService {
     private final DomainService target;
     Queue<String> addQueue = new LinkedBlockingQueue<>();
 
-    QueueDecorator(CachingDomainServiceImpl source) {
+    QueueDecorator(@Qualifier("cachingDomainServiceImpl") DomainService source) {
         target = source;
         new Thread(() -> {
             while (true) {
