@@ -33,3 +33,5 @@ build/
 .vscode/
 
 dockerBuilt.sh
+/demoDataSource.mv.db
+/demoDataSource.trace.db
