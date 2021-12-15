@@ -1,0 +1,16 @@
+{
+  "domains": [
+    {
+      "name": "google.com",
+      "count": 3
+    },
+    {
+      "name": "lenta.ru",
+      "count": 4
+    },
+    {
+      "name": "vk.com",
+      "count": 10
+    }
+  ]
+}
