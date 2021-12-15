@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,9 +14,13 @@ import javax.transaction.Transactional;
 @Table(name = "domain_top")
 public class DomainTop {
     @Id
+    @Getter
+    @Setter
     @Column(name = "domain", nullable = false)
     private String domain;
 
+    @Getter
+    @Setter
     @Column(name = "count", nullable = false)
     private Integer count;
 
@@ -23,22 +30,6 @@ public class DomainTop {
     }
 
     public DomainTop() {
-    }
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
     public void increaseCount() {
