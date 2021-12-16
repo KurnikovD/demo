@@ -15,7 +15,7 @@ import java.util.List;
 public class SparkController {
     final DomainService domainService;
 
-    public SparkController(@Qualifier("domainSparkService") DomainService domainService) {
+    public SparkController(@Qualifier("queueDecorator") DomainService domainService) {
         this.domainService = domainService;
     }
 
