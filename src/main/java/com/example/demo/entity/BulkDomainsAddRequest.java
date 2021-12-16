@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.util.List;
 
-public class DomainList {
+public class BulkDomainsAddRequest {
     @Getter
     @Setter
     List<DomainCount> domainsList;

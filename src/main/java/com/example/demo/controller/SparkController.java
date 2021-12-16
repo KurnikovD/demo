@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.entity.DomainList;
+import com.example.demo.entity.BulkDomainsAddRequest;
 import com.example.demo.service.DomainService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ public class SparkController {
     }
 
     @RequestMapping(value = "/spark", method = RequestMethod.POST)
-    public void add(@RequestBody DomainList params) {
+    public void add(@RequestBody BulkDomainsAddRequest params) {
         params.getDomainsList().forEach(it -> domainService.add(it.getUrl(), it.getCount()));
     }
 
