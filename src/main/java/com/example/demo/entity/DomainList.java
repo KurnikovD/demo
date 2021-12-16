@@ -8,5 +8,5 @@ import java.util.List;
 public class DomainList {
     @Getter
     @Setter
-    List<pojo> domainsList;
+    List<DomainCount> domainsList;
 }

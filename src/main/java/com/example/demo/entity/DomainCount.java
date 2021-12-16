@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-public class pojo {
+public class DomainCount {
     @Getter
     @Setter
     String url;
