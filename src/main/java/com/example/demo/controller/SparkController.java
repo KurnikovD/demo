@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entity.DomainList;
 import com.example.demo.entity.pojo;
 import com.example.demo.service.DomainService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,8 +21,8 @@ public class SparkController {
     }
 
     @RequestMapping(value = "/spark", method = RequestMethod.POST)
-    public void add(@RequestBody List<pojo> params) {
-        params.forEach(it -> domainService.add(it.getUrl(), it.getCount()));
+    public void add(@RequestBody DomainList params) {
+        params.getDomainsList().forEach(it -> domainService.add(it.getUrl(), it.getCount()));
     }
 
 }
