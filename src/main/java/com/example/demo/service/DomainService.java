@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface DomainService {
 
-    void add(String url);
+    void add(String url, Integer count);
 
     List<String> top(Integer n);
 

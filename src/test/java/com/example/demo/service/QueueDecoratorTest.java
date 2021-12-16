@@ -31,7 +31,7 @@ public class QueueDecoratorTest {
                     e.printStackTrace();
                 }
 
-                domainService.add(url);
+                domainService.add(url, 1);
                 terminationLatch.countDown();
             });
         }

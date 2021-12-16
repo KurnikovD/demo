@@ -56,7 +56,7 @@ class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
 
-        Mockito.verify(service).add("ya.ru/");
+        Mockito.verify(service).add("ya.ru/", 1);
     }
 
     @Test

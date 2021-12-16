@@ -14,8 +14,7 @@ import java.util.List;
 @RestController
 public class DataSourceController {
 
-    final
-    DomainService domainService;
+    final DomainService domainService;
 
     public DataSourceController(@Qualifier("domainDataSourceServiceImp") DomainService domainService) {
         this.domainService = domainService;
@@ -25,7 +24,7 @@ public class DataSourceController {
     public void add(HttpServletRequest request) {
 
         String url = request.getRequestURI().split("db/add/", 2)[1];
-        domainService.add(url);
+        domainService.add(url, 1);
     }
 
     @RequestMapping(value = "/db/top/{num}")

@@ -14,13 +14,13 @@ public class DomainServiceImpl implements DomainService {
     private static final HashMap<String, Integer> domains = new HashMap<>();
 
     @Override
-    public void add(String url) {
+    public void add(String url, Integer count) {
         String hostName = getHostNameFromURL(url);
 
         if (domains.containsKey(hostName)) {
-            domains.compute(hostName, (k, v) -> v = v + 1);
+            domains.compute(hostName, (k, v) -> v += count);
         } else {
-            domains.put(hostName, 1);
+            domains.put(hostName, count);
         }
 
     }
@@ -39,11 +39,7 @@ public class DomainServiceImpl implements DomainService {
     @Override
     public List<String> top(Integer n) {
         synchronized (domains) {
-            return domains.entrySet().stream()
-                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                    .map(Map.Entry::getKey)
-                    .limit(n)
-                    .collect(Collectors.toList());
+            return domains.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).map(Map.Entry::getKey).limit(n).collect(Collectors.toList());
         }
     }
 

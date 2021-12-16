@@ -21,8 +21,8 @@ public class CachingDomainServiceImpl implements DomainService {
 
     @CacheEvict(value = "top", allEntries = true)
     @Override
-    public void add(String url) {
-        target.add(url);
+    public void add(String url, Integer count) {
+        target.add(url, count);
     }
 
     @Cacheable("top")

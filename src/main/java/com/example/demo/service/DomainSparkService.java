@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class DomainSparkService implements DomainService{
+public class DomainSparkService implements DomainService {
 
     final DomainService domainService;
 
@@ -22,11 +20,8 @@ public class DomainSparkService implements DomainService{
     }
 
     @Override
-    public void add(String url) {
-        JavaRDD<String> text = sparkContext.textFile(url);
-        text.collect().forEach(domainService::add);
-
-
+    public void add(String url, Integer count) {
+        domainService.add(url, count);
     }
 
     @Override

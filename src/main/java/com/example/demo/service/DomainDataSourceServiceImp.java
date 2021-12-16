@@ -18,15 +18,15 @@ public class DomainDataSourceServiceImp implements DomainService {
     }
 
     @Override
-    public void add(String url) {
+    public void add(String url, Integer count) {
         String hostName = getHostNameFromURL(url);
 
         if (domainRepository.existsDomainTopByDomain(hostName)) {
             DomainTop domainTopByDomain = domainRepository.findDomainTopByDomain(hostName);
-            domainTopByDomain.increaseCount();
+            domainTopByDomain.increaseCount(count);
             domainRepository.save(domainTopByDomain);
         } else {
-            domainRepository.save(new DomainTop(hostName, 1));
+            domainRepository.save(new DomainTop(hostName, count));
         }
     }
 
@@ -43,10 +43,7 @@ public class DomainDataSourceServiceImp implements DomainService {
 
     @Override
     public List<String> top(Integer n) {
-        return domainRepository.getAllByOrderByCount().stream()
-                .limit(n)
-                .map(DomainTop::getDomain)
-                .collect(Collectors.toList());
+        return domainRepository.getAllByOrderByCount().stream().limit(n).map(DomainTop::getDomain).collect(Collectors.toList());
     }
 
     @Override

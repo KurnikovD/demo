@@ -25,7 +25,7 @@ public class Controller {
     public void add(HttpServletRequest request) {
 
         String url = request.getRequestURI().split("/add/", 2)[1];
-        domainService.add(url);
+        domainService.add(url, 1);
     }
 
     @RequestMapping(value = "/top/{num}")

@@ -1,29 +1,27 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.entity.pojo;
 import com.example.demo.service.DomainService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class SparkController {
-    final
-    DomainService domainService;
+    final DomainService domainService;
 
     public SparkController(@Qualifier("domainSparkService") DomainService domainService) {
         this.domainService = domainService;
     }
 
-    @Value("${spark.fileName}")
-    String fileName;
-
-    @RequestMapping(value = "/spark")
-    public void add(){
-        domainService.add(fileName);
+    @RequestMapping(value = "/spark", method = RequestMethod.POST)
+    public void add(@RequestBody List<pojo> params) {
+        params.forEach(it -> domainService.add(it.getUrl(), it.getCount()));
     }
 
 }

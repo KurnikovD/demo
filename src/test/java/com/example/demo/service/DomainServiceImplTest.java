@@ -14,7 +14,7 @@ class DomainServiceImplTest {
     @Test
     void testAddOk() {
         DomainService domainService = new DomainServiceImpl();
-        domainService.add("google.com");
+        domainService.add("google.com", 1);
         HashMap<String, Integer> expectedResponse = new HashMap<>();
         expectedResponse.put("google", 1);
         assertEquals(expectedResponse, domainService.domain());
@@ -23,9 +23,8 @@ class DomainServiceImplTest {
     @Test
     void testAddException() {
         DomainService domainService = new DomainServiceImpl();
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            domainService.add("google");
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> domainService.add("google", 1));
         String exceptionMessage = "Wrong URL!";
         String actualMessage = exception.getMessage();
         assertEquals(exceptionMessage, actualMessage);
@@ -34,7 +33,8 @@ class DomainServiceImplTest {
     @Test
     void testReturnNResultsFromTop() {
         DomainService domainService = new DomainServiceImpl();
-        List.of("google.com", "lenta.ru", "vk.com").forEach(domainService::add);
+        List.of("google.com", "lenta.ru", "vk.com")
+                .forEach(it ->domainService.add(it, 1));
         int n = 2;
         assertEquals(n, domainService.top(n).size());
     }
@@ -43,7 +43,7 @@ class DomainServiceImplTest {
     void testSortingTop() {
         DomainService domainService = new DomainServiceImpl();
         List.of("google.com", "lenta.ru", "lenta.ru", "vk.com", "vk.com", "vk.com")
-                .forEach(domainService::add);
+                .forEach(it ->domainService.add(it, 1));
         List<String> list = List.of("vk", "lenta", "google");
         assertEquals(list, domainService.top(3));
     }
